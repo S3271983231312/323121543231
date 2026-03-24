@@ -1,0 +1,156 @@
+{
+  "sources": [
+    {
+      "id": "byxatab",
+      "name": "ByXATAB",
+      "shortName": "<a href=\"https://byxatab.com/donate.html\" target=\"_blank\" style=\"color: #4caf50; text-decoration: none; font-weight: 500;\">Donate link</a>",
+      "filename": "ByXATAB",
+      "description": "Site russo conhecido por lançamentos de Repacks e Game Folders, lançamentos de qualidade e instalação rápida. Excelente conteúdo focalizado em Russo e Inglês.",
+      "status": "trusted",
+      "lastUpdated": "",
+      "url": "https://byxatab.pages.dev/",
+      "csvColumns": ["Nome", "Version", "Build", "Tamanho do Arquivo", "URL", "Data da Postagem"],
+      "pros": [
+        "Releases em <b>[Game folder]</b>, sem instalador",
+        "Repacks com compressão baixa/moderada",
+        "Catálogo extenso de jogos"
+      ],
+      "cons": [
+        "Jogos dublados as vezes só com legendas PT-BR",
+        "Configuração do idioma pode ser complicada",
+        "Foco no idioma Russo e Inglês"
+      ]
+    },
+    {
+      "id": "dodi",
+      "name": "DODI Repacks",
+      "shortName": "<a href=\"https://dodi-repacks.site/donate/\" target=\"_blank\" style=\"color: #4caf50; text-decoration: none; font-weight: 500;\">Donate link</a>",
+      "filename": "DODI Repack",
+      "description": "Repacks de jogos de alta qualidade com foco em compressão e confiabilidade. Conhecido por Repacks de instalação rápida e segura, com um launcher com design peculiar.",
+      "status": "trusted",
+      "lastUpdated": "",
+      "url": "https://dodi.pages.dev/",
+      "csvColumns": ["Nome", "Tamanho do Arquivo", "URL", "Data de Postagem"],
+      "pros": [
+        "Uso moderado da CPU durante instalação",
+        "Repacks com compressão moderada",
+        "Suporte a vários idiomas dos jogos"
+      ],
+      "cons": [
+        "Falhas na instalação por arquivos corrompidos",
+        "Catálogo menor em comparação ao da FitGirl",
+        "Design do launcher desastroso"
+      ]
+    },
+    {
+      "id": "ecologica",
+      "name": "Ecológica Verde",
+      "shortName": "Projeto sem fins lucrativo",
+      "filename": "Ecológica Verde",
+      "description": "Jogos curados diretamente pela equipe da Ecológica Verde com foco em qualidade, compatibilidade e segurança. Fontes verificadas e organizadas manualmente, sem nenhuma utilização de Web Scraping.",
+      "status": "verified",
+      "lastUpdated": "",
+      "url": "https://ecologica2verde.pages.dev/",
+      "csvColumns": ["Nome", "Version", "Build", "URL", "Data da Postagem"],
+      "pros": [
+        "Jogos incluídos pela Comunidade",
+        "Curadoria manual (sem web scraping)",
+        "Fontes verificadas e seguras para usar"
+      ],
+      "cons": [
+        "Alguns jogos com pouquíssimos seeders",
+        "Atualizações menos frequentes",
+        "Depende de fontes externas"
+      ]
+    },
+    {
+      "id": "fitgirl",
+      "name": "FitGirl Repacks",
+      "shortName": "<a href=\"https://fitgirl-repacks.site/donations/\" target=\"_blank\" style=\"color: #4caf50; text-decoration: none; font-weight: 500;\">Donate link</a>",
+      "filename": "FitGirl Repack",
+      "description": "<b>THE Repacker</b>. Excelente qualidade, compressão e total confiabilidade.",
+      "status": "trusted",
+      "lastUpdated": "",
+      "url": "https://ecofitgirl.pages.dev/",
+      "csvColumns": ["Nome", "Version", "Tamanho do Arquivo", "URL", "Data de Postagem"],
+      "pros": [
+        "<b>THE Repacker</b>: referência entre os repackers",
+        "Verifica integridade dos arquivos instalados",
+        "Compressão dos arquivos alta"
+      ],
+      "cons": [
+        "Falhas na instalação por arquivos corrompidos",
+        "Alta utilização da CPU durante instalação",
+        "Instalação pode ser lenta"
+      ]
+    },
+    {
+      "id": "gog",
+      "name": "Free PC GOG Games",
+      "shortName": "<a href=\"https://freegogpcgames.com/contact/\" target=\"_blank\" style=\"color: #4caf50; text-decoration: none; font-weight: 500;\">Donate link</a>",
+      "filename": "FreePCGOGGames",
+      "description": "Jogos sem DRM da plataforma GOG, preservados com todo o conteúdo bônus. Foco na qualidade e segurança.",
+      "status": "trusted",
+      "lastUpdated": "",
+      "url": "https://freepcgoggames.pages.dev/",
+      "csvColumns": ["Nome", "Version", "Tamanho do Arquivo", "URL", "Data da Postagem"],
+      "pros": [
+        "Jogos sem DRM, arquivos limpos",
+        "Conteúdo bônus preservado",
+        "Instalação simples"
+      ],
+      "cons": [
+        "Configuração do idioma pode ser complicada",
+        "Instalação dos jogos podem demorar",
+        "Catálogo limitado a jogos da GOG"
+      ]
+    },
+    {
+      "id": "onlinefix",
+      "name": "OnlineFixMe",
+      "shortName": "<a href=\"https://www.donationalerts.com/r/online_fix_me\" target=\"_blank\" style=\"color: #4caf50; text-decoration: none; font-weight: 500;\">Donate link</a>",
+      "filename": "OnlineFixMe",
+      "description": "Correções e Suporte Online para jogos Multiplayer da Steam, Epic Games e Servidores Dedicados. Excelente qualidade e confiabilidade, conhecido por 'joguei 5000 horas de spacewar na Steam'.",
+      "status": "trusted",
+      "lastUpdated": "",
+      "url": "https://onlinefixme.pages.dev/",
+      "csvColumns": ["Nome", "Version", "Build", "Funciona em Servidores Oficiais", "Tamanho do Arquivo", "Senha", "URL", "Data de Postagem"],
+      "pros": [
+        "Pode-se jogar em servidores oficiais",
+        "Atualizações são frequentes",
+        "Suporte a multiplayer online"
+      ],
+      "cons": [
+        "Alguns jogos perdem suporte permanentemente",
+        "Necessário Steam ou da Epic Games aberto",
+        "Foco do idioma em Russo"
+      ]
+    },
+    {
+      "id": "insaneramzes",
+      "name": "InsaneRamZes",
+      "shortName": "<a href=\"https://rutracker.me/forum/viewtopic.php?t=6452965\" target=\"_blank\" style=\"color: #4caf50; text-decoration: none; font-weight: 500;\">Donate link</a>",
+      "filename": "InsaneRamZes",
+      "description": "Releases em Game Folder do conhecido releaser do CS.RIN.RU e RuTracker. Instalação simples e direta.",
+      "status": "verified",
+      "lastUpdated": "",
+      "url": "https://insaneramzes.pages.dev/",
+      "csvColumns": ["Nome", "Version", "Tamanho do Arquivo", "URL", "Data de Postagem"],
+      "pros": [
+        "Releases em <b>[Game folder]</b>, sem instalador",
+        "Releaser conhecido do CS.RIN.RU e do RuTracker",
+        "Instalação simples"
+      ],
+      "cons": [
+        "Catálogo pequeno de jogos",
+        "Velocidade de download pode ser lenta",
+        "Jogos dublados as vezes só com legendas PT-BR"
+      ]
+    }
+  ],
+  "stats": {
+    "totalSources": 7,
+    "totalGames": 0,
+    "lastUpdated": "2024-01-15"
+  }
+}
