@@ -17,11 +17,11 @@ const CONFIG = {
     
     sourceUrls: {
         'byxatab': 'https://byxatab.pages.dev/',
-        'dodi': 'https://bdf50dce.dodi.pages.dev/',
+        'dodi': 'https://310e8b8a.dodi.pages.dev/',
         'ecologica': 'https://d9a6c21a.ecologica2verde.pages.dev/',
-        'fitgirl': 'https://a9e54520.ecofitgirl.pages.dev/',
+        'fitgirl': 'https://9f884f21.ecofitgirl.pages.dev/',
         'gog': 'https://freepcgoggames.pages.dev/',
-        'onlinefix': 'https://22ee02cb.onlinefixme.pages.dev/',
+        'onlinefix': 'https://e98383f8.onlinefixme.pages.dev/',
         'insaneramzes': 'https://insaneramzes.pages.dev/'
     },
     
