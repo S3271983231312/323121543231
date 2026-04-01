@@ -16,13 +16,13 @@ const CONFIG = {
     },
     
     sourceUrls: {
-        'byxatab': 'https://9f293758-5b2a-4ba1-99e7-dc81b71e6d8c.byxatab.pages.dev',
-        'dodi': 'https://310e8b8a-b4a7-4e6e-8789-32c190c028fa.dodi.pages.dev',
-        'ecologica': 'https://d9a6c21a-5099-4754-bb7e-3ce9291b62da.ecologica2verde.pages.dev',
-        'fitgirl': 'https://a99b1f3f-8e8c-4648-b9c5-b0f0639078b8.ecofitgirl.pages.dev',
-        'gog': 'https://c5620490-bc38-43a1-8c7b-bc7cc260c356.freepcgoggames.pages.dev',
-        'onlinefix': 'https://be7b73ee-b536-43b6-830d-4607be9dae2d.onlinefixme.pages.dev',
-        'insaneramzes': 'https://86cc653b-54d6-456b-a171-227378dad4e9.insaneramzes.pages.dev'
+        'byxatab': 'https://9f293758.byxatab.pages.dev',
+        'dodi': 'https://310e8b8a.dodi.pages.dev',
+        'ecologica': 'https://d9a6c21a.ecologica2verde.pages.dev',
+        'fitgirl': 'https://a99b1f3f.ecofitgirl.pages.dev',
+        'gog': 'https://c5620490.freepcgoggames.pages.dev',
+        'onlinefix': 'https://be7b73ee.onlinefixme.pages.dev',
+        'insaneramzes': 'https://86cc653b.insaneramzes.pages.dev'
     },
     
     sourceSafetyLinks: {
