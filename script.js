@@ -22,7 +22,7 @@ const CONFIG = {
         'fitgirl': 'https://7fa5ea89.ecofitgirl.pages.dev',
         'gog': 'https://08dd0ccb.freepcgoggames.pages.dev',
         'onlinefix': 'https://56c8f748.onlinefixme.pages.dev',
-        'insaneramzes': 'https://d3b0ec47.insaneramzes.pages.dev'
+        'insaneramzes': 'https://2ed029ba.insaneramzes.pages.dev'
     },
     
     sourceSafetyLinks: {
