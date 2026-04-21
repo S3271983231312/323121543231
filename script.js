@@ -19,10 +19,10 @@ const CONFIG = {
         'byxatab': 'https://4b068df1.byxatab.pages.dev',
         'dodi': 'https://a6ba1ac8.dodi.pages.dev',
         'ecologica': 'https://23e0beb4.ecologica2verde.pages.dev',
-        'fitgirl': 'https://b06d605d.ecofitgirl.pages.dev',
+        'fitgirl': 'https://7a1bc125.ecofitgirl.pages.dev',
         'gog': 'https://9881aceb.freepcgoggames.pages.dev',
-        'onlinefix': 'https://f6e9457d.onlinefixme.pages.dev',
-        'insaneramzes': 'https://c74bcb21.insaneramzes.pages.dev'
+        'onlinefix': 'https://8967872b.onlinefixme.pages.dev',
+        'insaneramzes': 'https://5648ab05.insaneramzes.pages.dev'
     },
     
     sourceSafetyLinks: {
