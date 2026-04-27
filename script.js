@@ -212,6 +212,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadUtilities();
     setupCardEffects();
     updateScrollbarVisibility();
+    setupGameSearch();
 });
 
 async function initializeApp() {
@@ -226,8 +227,6 @@ async function initializeApp() {
         
         state.gameCounts = gameCountsData;
         
-        // Calcula o total de jogos somando todos os valores dos catálogos
-        // Ignora as propriedades que não são catálogos (totalGames, lastUpdated)
         state.totalGames = 0;
         for (const key in gameCountsData) {
             if (key !== 'totalGames' && key !== 'lastUpdated' && typeof gameCountsData[key] === 'number') {
@@ -831,6 +830,278 @@ function showNotification(title, message, type = 'info') {
             notification.remove();
         }
     }, 5000);
+}
+
+function setupGameSearch() {
+    const modal = document.getElementById('gameSearchModal');
+    const openBtn = document.getElementById('openSearchModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const searchInput = document.getElementById('gameSearchInput');
+    const searchBtn = document.getElementById('searchGameBtn');
+    const resultsContainer = document.getElementById('searchResults');
+    const modalBody = document.getElementById('modalBody');
+
+    function getCatalogsFromSourceUrls() {
+        const catalogs = [];
+        const csvFiles = {
+            'byxatab': 'ByXATAB.csv.gz',
+            'dodi': 'DODI%20Repack.csv.gz',
+            'ecologica': 'Ecol%C3%B3gica%20Verde.csv.gz',
+            'fitgirl': 'FitGirl%20Repack.csv.gz',
+            'gog': 'FreePCGOGGames.csv.gz',
+            'onlinefix': 'OnlineFixMe.csv.gz',
+            'insaneramzes': 'InsaneRamZes.csv.gz'
+        };
+        
+        const icons = {
+            'byxatab': 'fa-gamepad',
+            'dodi': 'fa-gamepad',
+            'ecologica': 'fa-leaf',
+            'fitgirl': 'fa-gamepad',
+            'gog': 'fa-gamepad',
+            'onlinefix': 'fa-wifi',
+            'insaneramzes': 'fa-gamepad'
+        };
+        
+        const names = {
+            'byxatab': 'ByXATAB',
+            'dodi': 'DODI Repacks',
+            'ecologica': 'Ecológica Verde',
+            'fitgirl': 'FitGirl Repacks',
+            'gog': 'Free PC GOG Games',
+            'onlinefix': 'OnlineFixMe',
+            'insaneramzes': 'InsaneRamZes'
+        };
+        
+        for (const [id, baseUrl] of Object.entries(CONFIG.sourceUrls)) {
+            const csvFile = csvFiles[id];
+            if (csvFile) {
+                let url = baseUrl;
+                if (!url.endsWith('/')) {
+                    url = url + '/';
+                }
+                catalogs.push({
+                    id: id,
+                    name: names[id],
+                    csvUrl: url + csvFile,
+                    icon: icons[id]
+                });
+            }
+        }
+        
+        return catalogs;
+    }
+
+    if (openBtn) {
+        openBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            if (modalBody) {
+                modalBody.scrollTop = 0;
+            }
+            if (resultsContainer) {
+                resultsContainer.scrollTop = 0;
+            }
+            setTimeout(() => {
+                searchInput.focus();
+            }, 100);
+        });
+    }
+
+    function closeSearchModal() {
+        modal.style.display = 'none';
+        searchInput.value = '';
+        resultsContainer.innerHTML = `
+            <div class="search-placeholder">
+                <i class="fas fa-gamepad"></i>
+                <p>Digite o nome de um jogo para ver em qual(is) catálogo(s) ele está</p>
+            </div>
+        `;
+        if (modalBody) {
+            modalBody.scrollTop = 0;
+        }
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeSearchModal);
+    }
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeSearchModal();
+        });
+    }
+
+    async function searchInCatalog(catalog, gameName) {
+        try {
+            const response = await fetch(catalog.csvUrl);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            
+            const arrayBuffer = await response.arrayBuffer();
+            
+            let csvText;
+            
+            if (catalog.csvUrl.endsWith('.gz')) {
+                const decompressed = pako.ungzip(new Uint8Array(arrayBuffer), { to: 'string' });
+                csvText = decompressed;
+            } else {
+                const decoder = new TextDecoder('utf-8');
+                csvText = decoder.decode(arrayBuffer);
+            }
+            
+            const lines = csvText.split('\n');
+            if (lines.length === 0) return [];
+            
+            const headers = lines[0].split(',');
+            
+            const nameColumnIndex = headers.findIndex(h => 
+                h.toLowerCase().includes('nome') || 
+                h.toLowerCase().includes('name') ||
+                h.toLowerCase().includes('game')
+            );
+            
+            if (nameColumnIndex === -1) return [];
+            
+            const matches = [];
+            const searchTerm = gameName.toLowerCase();
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                let columns;
+                if (line.includes('"')) {
+                    const regex = /"([^"]*)"|([^,]+)/g;
+                    columns = [];
+                    let match;
+                    while ((match = regex.exec(line)) !== null) {
+                        columns.push(match[1] || match[2] || '');
+                    }
+                } else {
+                    columns = line.split(',');
+                }
+                
+                const gameName_raw = columns[nameColumnIndex] || '';
+                const gameName_clean = gameName_raw.replace(/^"|"$/g, '').trim();
+                
+                if (gameName_clean.toLowerCase().includes(searchTerm)) {
+                    if (!matches.includes(gameName_clean)) {
+                        matches.push(gameName_clean);
+                    }
+                }
+            }
+            
+            return matches;
+            
+        } catch (error) {
+            console.error(`Erro ao buscar em ${catalog.name}:`, error);
+            return [];
+        }
+    }
+
+    async function performSearch() {
+        const gameName = searchInput.value.trim();
+        
+        if (!gameName) {
+            resultsContainer.innerHTML = `
+                <div class="search-placeholder">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Digite o nome de um jogo para buscar</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const catalogs = getCatalogsFromSourceUrls();
+        
+        resultsContainer.innerHTML = `
+            <div class="search-loading">
+                <div class="loading-spinner-small"></div>
+                <p>Buscando em ${catalogs.length} catálogos...</p>
+            </div>
+        `;
+        
+        if (modalBody) {
+            modalBody.scrollTop = 0;
+        }
+        
+        const searchPromises = catalogs.map(catalog => 
+            searchInCatalog(catalog, gameName).then(matches => ({ catalog, matches }))
+        );
+        
+        const results = await Promise.all(searchPromises);
+        
+        const catalogsWithMatches = results.filter(r => r.matches.length > 0);
+        
+        if (catalogsWithMatches.length === 0) {
+            resultsContainer.innerHTML = `
+                <div class="search-no-results">
+                    <i class="fas fa-face-frown"></i>
+                    <h4>Nenhum jogo encontrado</h4>
+                    <p>Não encontramos "${gameName}" em nenhum catálogo.</p>
+                    <p class="search-tip">Dica: Tente usar apenas parte do nome ou verifique a ortografia.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        resultsContainer.innerHTML = `
+            <div class="search-results-header">
+                <i class="fas fa-check-circle"></i>
+                <span>Encontrado em ${catalogsWithMatches.length} catálogo(s)</span>
+            </div>
+            <div class="catalogs-list">
+                ${catalogsWithMatches.map(({ catalog, matches }, index) => `
+                    <div class="catalog-result" data-catalog-id="${catalog.id}">
+                        <div class="catalog-result-header" data-catalog-id="${catalog.id}">
+                            <i class="fas ${catalog.icon}"></i>
+                            <strong>${catalog.name}</strong>
+                            <span class="match-count">${matches.length} jogo(s)</span>
+                            <i class="fas fa-chevron-down dropdown-icon" data-catalog-id="${catalog.id}"></i>
+                        </div>
+                        <ul class="games-list" id="games-list-${catalog.id}">
+                            ${matches.map(game => `<li><i class="fas fa-gamepad"></i> ${escapeHtml(game)}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        document.querySelectorAll('.catalog-result-header').forEach(header => {
+            header.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const catalogId = header.dataset.catalogId;
+                const gamesList = document.getElementById(`games-list-${catalogId}`);
+                const dropdownIcon = header.querySelector('.dropdown-icon');
+                
+                if (gamesList) {
+                    gamesList.classList.toggle('collapsed');
+                    if (dropdownIcon) {
+                        if (gamesList.classList.contains('collapsed')) {
+                            dropdownIcon.style.transform = 'rotate(-90deg)';
+                        } else {
+                            dropdownIcon.style.transform = 'rotate(0deg)';
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', performSearch);
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+    }
 }
 
 window.handleAccessSource = handleAccessSource;
