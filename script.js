@@ -848,9 +848,9 @@ function setupGameSearch() {
             'dodi': 'DODI%20Repack.csv.gz',
             'ecologica': 'Ecol%C3%B3gica%20Verde.csv.gz',
             'fitgirl': 'FitGirl%20Repack.csv.gz',
-            'gog': 'FreePCGOGGames.csv.gz',
+            'gog': 'Free%20PC%20GOG%20Games.csv.gz',
             'onlinefix': 'OnlineFixMe.csv.gz',
-            'insaneramzes': 'InsaneRamZes.csv.gz'
+            'insaneramzes': 'InsaneRamzes.csv.gz'
         };
         
         const icons = {
