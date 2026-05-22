@@ -71,6 +71,14 @@ const CONFIG = {
             url: 'https://rentry.co/ATIVADOR-MICROSOFT-OFFICE-E-WINDOWS-ECOLOGICA-VERDE'
         },
         {
+            id: 'sites-warning',
+            emoji: '⛔',
+            icon: 'fa-exclamation-triangle',
+            title: 'SITES: Fontes Externas não recomendadas',
+            description: 'Lista de sites problemáticos (adware, vírus, trojan) e de fontes não recomendadas.',
+            url: 'https://rentry.co/sites-problematicos-ecologica-verde'
+        },
+        {
             id: 'digimon-guide',
             emoji: '🎮',
             icon: 'fa-gamepad',
@@ -110,14 +118,6 @@ const CONFIG = {
             description: 'Guia completo para instalação e configuração do Shin Megami Tensei V: Vengeance da Steam.',
             url: 'https://rentry.co/SHIN-MEGAMI-TENSEI-V-VENGEANCE-ECOLOGICA-VERDE'
         },
-        {
-            id: 'sites-warning',
-            emoji: '⛔',
-            icon: 'fa-exclamation-triangle',
-            title: 'SITES: Fontes Externas não recomendadas',
-            description: 'Lista de sites problemáticos (adware, vírus, trojan) e de fontes não recomendadas.',
-            url: 'https://rentry.co/sites-problematicos-ecologica-verde'
-        }
     ],
     
     utilities: [
@@ -136,6 +136,14 @@ const CONFIG = {
             title: 'r/Piracy Megathread',
             description: '<b>Maior thread</b> de conteúdo gratuito do Reddit.',
             url: 'https://www.reddit.com/r/Piracy/wiki/megathread/'
+        },
+        {
+            id: 'annas-archive',
+            emoji: '📖',
+            icon: 'fa-book',
+            title: 'Anna`s Archive',
+            description: 'A maior biblioteca verdadeiramente aberta da história da humanidade.',
+            url: 'https://annas-archive.gd/'
         },
         {
             id: 'adguard-vpn',
