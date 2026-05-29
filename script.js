@@ -1,3 +1,118 @@
+let currentLanguage = 'pt';
+let currentTranslations = {};
+let currentProsConsTranslations = {};
+
+const LANGUAGES = {
+    pt: { name: 'Português', translations: LANGUAGE_PT, prosCons: PROS_CONS_PT },
+    en: { name: 'English', translations: LANGUAGE_EN, prosCons: PROS_CONS_EN },
+    es: { name: 'Español', translations: LANGUAGE_ES, prosCons: PROS_CONS_ES },
+    ru: { name: 'Русский', translations: LANGUAGE_RU, prosCons: PROS_CONS_RU }
+};
+
+function translateProsCons(text) {
+    if (currentLanguage === 'pt') return text;
+    if (!currentProsConsTranslations) return text;
+    return currentProsConsTranslations[text] || text;
+}
+
+function applyTranslations(lang) {
+    const langData = LANGUAGES[lang];
+    if (!langData) return;
+    
+    currentTranslations = langData.translations;
+    currentProsConsTranslations = langData.prosCons;
+    
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (currentTranslations[key]) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = currentTranslations[key];
+            } else {
+                element.innerHTML = currentTranslations[key];
+            }
+        }
+    });
+    
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        if (currentTranslations[key]) {
+            element.placeholder = currentTranslations[key];
+        }
+    });
+    
+    const currentLabel = document.getElementById('currentLanguageLabel');
+    if (currentLabel) currentLabel.textContent = langData.name;
+    
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+    
+    localStorage.setItem('siteLanguage', lang);
+    
+    refreshCatalogStats();
+    refreshGuidesStats();
+    refreshUtilitiesStats();
+    renderSources();
+    loadGuides();
+    loadUtilities();
+}
+
+function refreshCatalogStats() {
+    const catalogStats = document.getElementById('catalogStats');
+    if (catalogStats && state && state.totalGames) {
+        catalogStats.textContent = `${state.sources.length} ${currentTranslations?.catalogs_indexed || 'catálogos indexados'} | ${currentTranslations?.total_games || 'Total de Jogos'}: ${state.totalGames.toLocaleString('pt-BR')}`;
+    }
+}
+
+function refreshGuidesStats() {
+    const guidesStats = document.getElementById('guidesStats');
+    if (guidesStats) {
+        guidesStats.textContent = `${CONFIG.guides.length} ${currentTranslations?.guides_stats || 'guias disponíveis'}`;
+    }
+}
+
+function refreshUtilitiesStats() {
+    const utilitiesStats = document.getElementById('utilitiesStats');
+    if (utilitiesStats) {
+        utilitiesStats.textContent = `${CONFIG.utilities.length} ${currentTranslations?.utilities_stats || 'utilitários disponíveis'}`;
+    }
+}
+
+function setupLanguageSelector() {
+    const savedLang = localStorage.getItem('siteLanguage');
+    if (savedLang && LANGUAGES[savedLang]) {
+        currentLanguage = savedLang;
+        applyTranslations(currentLanguage);
+    } else {
+        applyTranslations('pt');
+    }
+    
+    const menuBtn = document.getElementById('languageMenuBtn');
+    const dropdown = document.getElementById('languageDropdown');
+    
+    if (menuBtn && dropdown) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
+        });
+        
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                const lang = option.getAttribute('data-lang');
+                if (lang && LANGUAGES[lang]) {
+                    currentLanguage = lang;
+                    applyTranslations(currentLanguage);
+                    dropdown.classList.remove('show');
+                }
+            });
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!menuBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    }
+}
+
 const CONFIG = {
     statusLabels: {
         'trusted': { label: 'Confiável', class: 'status-trusted', icon: 'fa-shield-alt' },
@@ -50,74 +165,56 @@ const CONFIG = {
             id: 'all-guides',
             emoji: '📚',
             icon: 'fa-book',
-            title: 'TODOS GUIAS DA ECOLÓGICA VERDE',
-            description: 'Acesso completo a todos os guias públicos disponíveis pela Ecológica Verde.',
             url: 'https://rentry.co/ECOLOGICA-VERDE-GUIAS'
         },
         {
             id: 'adobe-guide',
             emoji: '📙',
             icon: 'fa-paint-brush',
-            title: 'GUIA: Adobe Creative Cloud',
-            description: 'Guia completo para instalação e ativação dos aplicativos da Adobe Creative Cloud.',
             url: 'https://rentry.co/adobe-creative-cloud-ecologica-verde'
         },
         {
             id: 'microsoft-guide',
             emoji: '📗',
             icon: 'fa-desktop',
-            title: 'GUIA: Pacote Microsoft Office e Ativador do Windows',
-            description: 'Guia completo para instalação e ativação do Pacote Microsoft Office e Windows.',
             url: 'https://rentry.co/ATIVADOR-MICROSOFT-OFFICE-E-WINDOWS-ECOLOGICA-VERDE'
         },
         {
             id: 'sites-warning',
             emoji: '⛔',
             icon: 'fa-exclamation-triangle',
-            title: 'SITES: Fontes Externas não recomendadas',
-            description: 'Lista de sites problemáticos (adware, vírus, trojan) e de fontes não recomendadas.',
             url: 'https://rentry.co/sites-problematicos-ecologica-verde'
         },
         {
             id: 'digimon-guide',
             emoji: '🎮',
             icon: 'fa-gamepad',
-            title: 'GUIA: Digimon Story: Time Stranger',
-            description: 'Guia completo para instalação e configuração do Digimon Story: Time Stranger da Steam.',
             url: 'https://rentry.co/DIGIMON-STORY-TIME-STRANGER-ECOLOGICA-VERDE'
         },
         {
             id: 'elden-guide',
             emoji: '🎮',
             icon: 'fa-gamepad',
-            title: 'GUIA: ELDEN RING NIGHTREIGN',
-            description: 'Guia completo para instalação e configuração do mod (Seamless Co-op) do ELDEN RING NIGHTREIGN.',
             url: 'https://rentry.co/elden-ring-nightreign-ecologica-verde'
         },
         {
             id: 'ffxv-guide',
             emoji: '🎮',
             icon: 'fa-gamepad',
-            title: 'GUIA: FINAL FANTASY XV: Windows Edition',
-            description: 'Guia completo para instalação e configuração do FINAL FANTASY XV: Windows Edition.',
             url: 'https://rentry.co/FINAL-FANTASY-XV-ECOLOGICA-VERDE'
         },
         {
             id: 'persona-guide',
             emoji: '🎮',
             icon: 'fa-gamepad',
-            title: 'GUIA: Persona 3 Reload',
-            description: 'Guia completo para instalação e configuração do Persona 3 Reload da Steam.',
             url: 'https://rentry.co/PERSONA-3-RELOAD-ECOLOGICA-VERDE'
         },
         {
             id: 'smt-guide',
             emoji: '🎮',
             icon: 'fa-gamepad',
-            title: 'GUIA: Shin Megami Tensei V: Vengeance',
-            description: 'Guia completo para instalação e configuração do Shin Megami Tensei V: Vengeance da Steam.',
             url: 'https://rentry.co/SHIN-MEGAMI-TENSEI-V-VENGEANCE-ECOLOGICA-VERDE'
-        },
+        }
     ],
     
     utilities: [
@@ -125,72 +222,54 @@ const CONFIG = {
             id: 'fmhy',
             emoji: '➡️',
             icon: 'fa-external-link-alt',
-            title: 'FMHY: Freemediaheckyeah',
-            description: '<b>Freemediaheckyeah:</b> A maior coleção de coisas grátis na internet!',
             url: 'https://fmhy.net/'
         },
         {
             id: 'piracy-megathread',
             emoji: '💬',
             icon: 'fa-external-link-alt',
-            title: 'r/Piracy Megathread',
-            description: '<b>Maior thread</b> de conteúdo gratuito do Reddit.',
             url: 'https://www.reddit.com/r/Piracy/wiki/megathread/'
         },
         {
             id: 'annas-archive',
             emoji: '📖',
             icon: 'fa-book',
-            title: 'Anna`s Archive',
-            description: 'A maior biblioteca verdadeiramente aberta da história da humanidade.',
             url: 'https://annas-archive.gd/'
         },
         {
             id: 'adguard-vpn',
             emoji: '⛔',
             icon: 'fa-user-shield',
-            title: 'AdGuard VPN',
-            description: 'VPN gratuita e proxy para navegação segura.',
             url: 'https://chromewebstore.google.com/detail/adguard-vpn-proxy-gratuit/hhdobjgopfphlmjbmnpglhfcgppchgje'
         },
         {
             id: 'cobalt-tools',
             emoji: '😼',
             icon: 'fa-tools',
-            title: 'Cobalt Tools',
-            description: 'Ferramentas para download de mídia de várias plataformas.',
             url: 'https://cobalt.tools/'
         },
         {
             id: 'rentry',
             emoji: '📚',
             icon: 'fa-paste',
-            title: 'Rentry',
-            description: 'Serviço de pastebin simples e rápido para compartilhamento de texto.',
             url: 'https://rentry.co/'
         },
         {
             id: 'spotify-pc',
             emoji: '🎵',
             icon: 'fa-music',
-            title: 'Spotify-PC',
-            description: 'Cliente modificado do Spotify para Windows sem anúncios.',
             url: 'https://github.com/SpotX-Official/SpotX'
         },
         {
             id: 'temp-email',
             emoji: '✉️',
             icon: 'fa-envelope',
-            title: 'E-mail Temporário',
-            description: 'Serviço de e-mail temporário para registros e verificações.',
             url: 'https://adguard.com/pt_br/adguard-temp-mail/overview.html'
         },
         {
             id: 'ublock',
             emoji: '🚫',
             icon: 'fa-shield-alt',
-            title: 'uBlock Origin',
-            description: 'Extensão de navegador para bloquear anúncios e rastreadores.',
             url: 'https://ublockorigin.com/'
         }
     ]
@@ -221,6 +300,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupCardEffects();
     updateScrollbarVisibility();
     setupGameSearch();
+    setupMobileMenu();
+    setupLanguageSelector();
+    setupSourceModal();
 });
 
 async function initializeApp() {
@@ -270,6 +352,134 @@ async function initializeApp() {
     }
 }
 
+function setupSourceModal() {
+    const modal = document.getElementById('sourceModal');
+    const closeBtn = document.getElementById('closeSourceModalBtn');
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    }
+    
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+}
+
+function showSourceDetails(sourceId) {
+    const source = state.sources.find(s => s.id === sourceId);
+    if (!source) return;
+    
+    const statusInfo = CONFIG.statusLabels[source.status];
+    const modal = document.getElementById('sourceModal');
+    const statusSpan = document.getElementById('sourceModalStatus');
+    const filenameSpan = document.getElementById('sourceModalFilename');
+    const starsDiv = document.getElementById('sourceModalStars');
+    const columnsDiv = document.getElementById('sourceModalColumns');
+    
+    if (statusSpan) {
+        statusSpan.className = `status-indicator ${statusInfo.class}`;
+        statusSpan.innerHTML = `<i class="fas ${statusInfo.icon}"></i> ${statusInfo.label}`;
+    }
+    
+    if (filenameSpan) {
+        filenameSpan.textContent = `${source.filename}.csv`;
+    }
+    
+    if (starsDiv) {
+        starsDiv.innerHTML = getStarsHTML(source.stars);
+    }
+    
+    if (columnsDiv) {
+        columnsDiv.innerHTML = source.csvColumns.map(col => `<span class="column-tag">${col}</span>`).join('');
+    }
+    
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function setupMobileMenu() {
+    const menuToggle = document.getElementById('mobileMenuToggle');
+    const filtersToggle = document.getElementById('mobileFiltersToggle');
+    const leftSidebar = document.getElementById('leftSidebar');
+    const filtersSidebar = document.getElementById('filtersSidebar');
+    const closeSidebar = document.getElementById('mobileCloseSidebar');
+    const closeFilters = document.getElementById('mobileCloseFilters');
+    
+    function closeAllSidebars() {
+        if (leftSidebar) leftSidebar.classList.remove('open');
+        if (filtersSidebar) {
+            filtersSidebar.classList.remove('open');
+            filtersSidebar.classList.add('hidden');
+        }
+    }
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (filtersSidebar && filtersSidebar.classList.contains('open')) {
+                filtersSidebar.classList.remove('open');
+                filtersSidebar.classList.add('hidden');
+            }
+            leftSidebar.classList.toggle('open');
+        });
+    }
+    
+    if (filtersToggle) {
+        filtersToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (leftSidebar && leftSidebar.classList.contains('open')) {
+                leftSidebar.classList.remove('open');
+            }
+            filtersSidebar.classList.toggle('open');
+            filtersSidebar.classList.remove('hidden');
+        });
+    }
+    
+    if (closeSidebar) {
+        closeSidebar.addEventListener('click', () => {
+            leftSidebar.classList.remove('open');
+        });
+    }
+    
+    if (closeFilters) {
+        closeFilters.addEventListener('click', () => {
+            filtersSidebar.classList.remove('open');
+            setTimeout(() => {
+                if (!filtersSidebar.classList.contains('open')) {
+                    filtersSidebar.classList.add('hidden');
+                }
+            }, 300);
+        });
+    }
+    
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+            if (leftSidebar && leftSidebar.classList.contains('open')) {
+                if (!leftSidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                    leftSidebar.classList.remove('open');
+                }
+            }
+            if (filtersSidebar && filtersSidebar.classList.contains('open')) {
+                if (!filtersSidebar.contains(e.target) && !filtersToggle.contains(e.target)) {
+                    filtersSidebar.classList.remove('open');
+                    setTimeout(() => {
+                        if (!filtersSidebar.classList.contains('open')) {
+                            filtersSidebar.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            }
+        }
+    });
+}
+
 function setupNavigation() {
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
@@ -296,9 +506,6 @@ function setupNavigation() {
             
             if (section === 'sources') {
                 filtersSidebar.classList.remove('hidden');
-                
-                void filtersSidebar.offsetWidth;
-                
                 filtersSidebar.style.opacity = '1';
                 filtersSidebar.style.transform = 'translateX(0)';
                 
@@ -307,6 +514,9 @@ function setupNavigation() {
                     state.isChangingSection = false;
                 }, 100);
             } else {
+                if (window.innerWidth <= 768) {
+                    filtersSidebar.classList.remove('open');
+                }
                 filtersSidebar.style.opacity = '0';
                 filtersSidebar.style.transform = 'translateX(100%)';
                 
@@ -318,6 +528,13 @@ function setupNavigation() {
             
             state.currentSection = section;
             updateScrollbarVisibility();
+            
+            if (window.innerWidth <= 768) {
+                const leftSidebar = document.getElementById('leftSidebar');
+                if (leftSidebar) {
+                    leftSidebar.classList.remove('open');
+                }
+            }
         });
     });
 }
@@ -491,8 +708,8 @@ function renderSources() {
         grid.innerHTML = `
             <div class="no-results">
                 <i class="fas fa-search"></i>
-                <h3>Nenhum catálogo encontrado</h3>
-                <p>Tente ajustar os filtros ou a pesquisa</p>
+                <h3>${currentTranslations?.no_results || 'Nenhum catálogo encontrado'}</h3>
+                <p>${currentTranslations?.no_results_tip || 'Tente ajustar os filtros ou a pesquisa'}</p>
             </div>
         `;
         return;
@@ -500,6 +717,19 @@ function renderSources() {
     
     grid.innerHTML = state.filteredSources.map(source => {
         const isEcologica = source.id === 'ecologica';
+        
+        const donateLinkText = currentTranslations?.donate_link || 'Link de Doação';
+        const urlSafelyText = currentTranslations?.url_safely || 'Verificação da URL';
+        
+        let shortNameHtml = source.shortName;
+        if (currentLanguage !== 'pt' && source.shortName.includes('Donate link')) {
+            shortNameHtml = source.shortName.replace('Donate link', donateLinkText);
+        } else if (currentLanguage === 'pt' && source.shortName.includes('Donate link')) {
+            shortNameHtml = source.shortName.replace('Donate link', donateLinkText);
+        }
+        
+        const translatedPros = source.pros.map(pro => translateProsCons(pro));
+        const translatedCons = source.cons.map(con => translateProsCons(con));
         
         return `
         <article class="source-card" data-id="${source.id}">
@@ -512,11 +742,11 @@ function renderSources() {
                     <div class="card-subtitle">
                         <div class="donate-safety-links">
                             ${isEcologica ? 
-                                `<span>Projeto sem fins lucrativo</span>` : 
-                                source.shortName
+                                `<span>${currentTranslations?.nonprofit || 'Projeto sem fins lucrativo'}</span>` : 
+                                shortNameHtml
                             }
                             <span class="divider">|</span>
-                            <a href="${source.safetyLink}" class="link-text" target="_blank">URL Safely</a>
+                            <a href="${source.safetyLink}" class="link-text" target="_blank">${urlSafelyText}</a>
                         </div>
                     </div>
                 </div>
@@ -525,25 +755,25 @@ function renderSources() {
             <div class="card-pros-cons">
                 <div class="pros-cons-header">
                     <i class="fas fa-chart-line"></i>
-                    <h4>Análise do Catálogo</h4>
+                    <h4>${currentTranslations?.catalog_analysis || 'Análise do Catálogo'}</h4>
                 </div>
                 <div class="pros-cons-grid">
                     <div class="pros-section">
                         <div class="pros-title">
                             <i class="fas fa-check-circle"></i>
-                            <span>Prós</span>
+                            <span>${currentTranslations?.pros || 'Prós'}</span>
                         </div>
                         <ul class="pros-list">
-                            ${source.pros.map(pro => `<li>${pro}</li>`).join('')}
+                            ${translatedPros.map(pro => `<li>${pro}</li>`).join('')}
                         </ul>
                     </div>
                     <div class="cons-section">
                         <div class="cons-title">
                             <i class="fas fa-times-circle"></i>
-                            <span>Contras</span>
+                            <span>${currentTranslations?.cons || 'Contras'}</span>
                         </div>
                         <ul class="cons-list">
-                            ${source.cons.map(con => `<li>${con}</li>`).join('')}
+                            ${translatedCons.map(con => `<li>${con}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
@@ -558,7 +788,7 @@ function renderSources() {
                 </div>
                 <div class="games-count">
                     <i class="fas fa-gamepad"></i>
-                    <span>${source.gameCount.toLocaleString('pt-BR')} Jogos</span>
+                    <span>${source.gameCount.toLocaleString('pt-BR')} ${currentTranslations?.games_count || 'Jogos'}</span>
                 </div>
                 <div class="stars">
                     ${getStarsHTML(source.stars)}
@@ -568,7 +798,7 @@ function renderSources() {
             <div class="card-actions">
                 <a href="${source.url}" class="btn btn-primary" target="_blank">
                     <i class="fas fa-external-link-alt"></i>
-                    Acessar Catálogo
+                    ${currentTranslations?.access_catalog || 'Acessar Catálogo'}
                 </a>
             </div>
         </article>
@@ -597,35 +827,43 @@ function loadGuides() {
         grid.innerHTML = `
             <div class="no-results">
                 <i class="fas fa-book"></i>
-                <h3>Nenhum guia disponível</h3>
-                <p>Os guias serão adicionados em breve</p>
+                <h3>${currentTranslations?.no_guides || 'Nenhum guia disponível'}</h3>
+                <p>${currentTranslations?.coming_soon || 'Os guias serão adicionados em breve'}</p>
             </div>
         `;
         return;
     }
     
-    grid.innerHTML = CONFIG.guides.map(guide => `
+    const guidesTranslations = currentTranslations?.guides_translations || {};
+    
+    const guidesList = CONFIG.guides.map(guide => {
+        const translation = guidesTranslations[guide.id];
+        const title = translation?.title || guide.id;
+        const description = translation?.description || '';
+        
+        return `
         <article class="guide-card" data-id="${guide.id}">
             <div class="card-header">
                 <div class="card-icon">
                     <i class="fas ${guide.icon}"></i>
                 </div>
                 <div class="card-title">
-                    <h3>${guide.title}</h3>
+                    <h3>${title}</h3>
                 </div>
             </div>
             
-            <p class="card-description">${guide.description}</p>
+            <p class="card-description">${description}</p>
             
             <div class="card-actions">
                 <a href="${guide.url}" class="btn btn-primary btn-guide" target="_blank">
                     <i class="fas fa-external-link-alt"></i>
-                    Acessar Guia
+                    ${currentTranslations?.access_guide || 'Acessar Guia'}
                 </a>
             </div>
         </article>
-    `).join('');
+    `}).join('');
     
+    grid.innerHTML = guidesList;
     setupCardEffects();
 }
 
@@ -637,43 +875,51 @@ function loadUtilities() {
         grid.innerHTML = `
             <div class="no-results">
                 <i class="fas fa-tools"></i>
-                <h3>Nenhum utilitário disponível</h3>
-                <p>Os utilitários serão adicionados em breve</p>
+                <h3>${currentTranslations?.no_utilities || 'Nenhum utilitário disponível'}</h3>
+                <p>${currentTranslations?.coming_soon || 'Os utilitários serão adicionados em breve'}</p>
             </div>
         `;
         return;
     }
     
-    const sortedUtilities = CONFIG.utilities.sort((a, b) => {
+    const utilitiesTranslations = currentTranslations?.utilities_translations || {};
+    
+    const sortedUtilities = [...CONFIG.utilities].sort((a, b) => {
         if (a.id === 'fmhy') return -1;
         if (b.id === 'fmhy') return 1;
         if (a.id === 'piracy-megathread') return -1;
         if (b.id === 'piracy-megathread') return 1;
-        return a.title.localeCompare(b.title);
+        return a.id.localeCompare(b.id);
     });
     
-    grid.innerHTML = sortedUtilities.map(utility => `
+    const utilitiesList = sortedUtilities.map(utility => {
+        const translation = utilitiesTranslations[utility.id];
+        const title = translation?.title || utility.id;
+        const description = translation?.description || '';
+        
+        return `
         <article class="utility-card" data-id="${utility.id}">
             <div class="card-header">
                 <div class="card-icon">
                     <i class="fas ${utility.icon}"></i>
                 </div>
                 <div class="card-title">
-                    <h3>${utility.title}</h3>
+                    <h3>${title}</h3>
                 </div>
             </div>
             
-            <p class="card-description">${utility.description}</p>
+            <p class="card-description">${description}</p>
             
             <div class="card-actions">
                 <a href="${utility.url}" class="btn btn-primary btn-utility" target="_blank">
                     <i class="fas fa-external-link-alt"></i>
-                    Acessar Utilitário
+                    ${currentTranslations?.access_utility || 'Acessar Utilitário'}
                 </a>
             </div>
         </article>
-    `).join('');
+    `}).join('');
     
+    grid.innerHTML = utilitiesList;
     setupCardEffects();
 }
 
@@ -704,68 +950,6 @@ function handleAccessSource(sourceId) {
         `Abrindo catálogo ${source.name}...`,
         'info'
     );
-    
-    console.log(`Acessando: ${source.name}`);
-    console.log(`Arquivo CSV: ${source.filename}.csv`);
-}
-
-function showSourceDetails(sourceId) {
-    const source = state.sources.find(s => s.id === sourceId);
-    const statusInfo = CONFIG.statusLabels[source.status];
-    
-    const modalHTML = `
-        <div class="modal-overlay" id="sourceModal">
-            <div class="modal">
-                <div class="modal-header">
-                    <h2>${source.name}</h2>
-                    <button class="modal-close" onclick="closeModal()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <label>Status</label>
-                            <span class="status-indicator ${statusInfo.class}">
-                                <i class="fas ${statusInfo.icon}"></i>
-                                ${statusInfo.label}
-                            </span>
-                        </div>
-                        
-                        <div class="info-item">
-                            <label>Arquivo CSV</label>
-                            <code>${source.filename}.csv</code>
-                        </div>
-                        
-                        <div class="info-item">
-                            <label>Recomendação</label>
-                            <div class="stars">
-                                ${getStarsHTML(source.stars)}
-                            </div>
-                        </div>
-                        
-                        <div class="info-item">
-                            <label>Colunas do CSV</label>
-                            <div class="csv-columns">
-                                ${source.csvColumns.map(col => `<span class="column-tag">${col}</span>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-    
-    document.getElementById('sourceModal').addEventListener('click', (e) => {
-        if (e.target.id === 'sourceModal') {
-            closeModal();
-        }
-    });
-}
-
-function closeModal() {
-    const modal = document.getElementById('sourceModal');
-    if (modal) modal.remove();
 }
 
 function showError(message, section) {
@@ -921,7 +1105,7 @@ function setupGameSearch() {
         resultsContainer.innerHTML = `
             <div class="search-placeholder">
                 <i class="fas fa-gamepad"></i>
-                <p>Digite o nome de um jogo para ver em qual(is) catálogo(s) ele está</p>
+                <p>${currentTranslations?.modal_placeholder || 'Digite o nome de um jogo para ver em qual(is) catálogo(s) ele está'}</p>
             </div>
         `;
         if (modalBody) {
@@ -967,6 +1151,12 @@ function setupGameSearch() {
                 h.toLowerCase().includes('game')
             );
             
+            const magnetColumnIndex = headers.findIndex(h => 
+                h.toLowerCase().includes('url') || 
+                h.toLowerCase().includes('magnet') ||
+                h.toLowerCase().includes('link')
+            );
+            
             if (nameColumnIndex === -1) return [];
             
             const matches = [];
@@ -991,9 +1181,17 @@ function setupGameSearch() {
                 const gameName_raw = columns[nameColumnIndex] || '';
                 const gameName_clean = gameName_raw.replace(/^"|"$/g, '').trim();
                 
+                let magnetLink = '';
+                if (magnetColumnIndex !== -1 && columns[magnetColumnIndex]) {
+                    magnetLink = columns[magnetColumnIndex].replace(/^"|"$/g, '').trim();
+                }
+                
                 if (gameName_clean.toLowerCase().includes(searchTerm)) {
-                    if (!matches.includes(gameName_clean)) {
-                        matches.push(gameName_clean);
+                    if (!matches.some(m => m.name === gameName_clean)) {
+                        matches.push({
+                            name: gameName_clean,
+                            magnet: magnetLink
+                        });
                     }
                 }
             }
@@ -1013,7 +1211,7 @@ function setupGameSearch() {
             resultsContainer.innerHTML = `
                 <div class="search-placeholder">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <p>Digite o nome de um jogo para buscar</p>
+                    <p>${currentTranslations?.modal_search_error || 'Digite o nome de um jogo para buscar'}</p>
                 </div>
             `;
             return;
@@ -1024,7 +1222,7 @@ function setupGameSearch() {
         resultsContainer.innerHTML = `
             <div class="search-loading">
                 <div class="loading-spinner-small"></div>
-                <p>Buscando em ${catalogs.length} catálogos...</p>
+                <p>${currentTranslations?.searching || 'Buscando em'} ${catalogs.length} ${currentTranslations?.catalogs || 'catálogos'}...</p>
             </div>
         `;
         
@@ -1044,9 +1242,9 @@ function setupGameSearch() {
             resultsContainer.innerHTML = `
                 <div class="search-no-results">
                     <i class="fas fa-face-frown"></i>
-                    <h4>Nenhum jogo encontrado</h4>
-                    <p>Não encontramos "${gameName}" em nenhum catálogo.</p>
-                    <p class="search-tip">Dica: Tente usar apenas parte do nome ou verifique a ortografia.</p>
+                    <h4>${currentTranslations?.no_games || 'Nenhum jogo encontrado'}</h4>
+                    <p>${currentTranslations?.no_games_message || 'Não encontramos'} "${gameName}" ${currentTranslations?.in_catalogs || 'em nenhum catálogo'}.</p>
+                    <p class="search-tip">${currentTranslations?.search_tip || 'Dica: Tente usar apenas parte do nome ou verifique a ortografia.'}</p>
                 </div>
             `;
             return;
@@ -1055,19 +1253,27 @@ function setupGameSearch() {
         resultsContainer.innerHTML = `
             <div class="search-results-header">
                 <i class="fas fa-check-circle"></i>
-                <span>Encontrado em ${catalogsWithMatches.length} catálogo(s)</span>
+                <span>${currentTranslations?.found_in || 'Encontrado em'} ${catalogsWithMatches.length} ${currentTranslations?.catalog || 'catálogo(s)'}</span>
             </div>
             <div class="catalogs-list">
-                ${catalogsWithMatches.map(({ catalog, matches }, index) => `
+                ${catalogsWithMatches.map(({ catalog, matches }) => `
                     <div class="catalog-result" data-catalog-id="${catalog.id}">
                         <div class="catalog-result-header" data-catalog-id="${catalog.id}">
                             <i class="fas ${catalog.icon}"></i>
                             <strong>${catalog.name}</strong>
-                            <span class="match-count">${matches.length} jogo(s)</span>
+                            <span class="match-count">${matches.length} ${currentTranslations?.games_found || 'jogo(s)'}</span>
                             <i class="fas fa-chevron-down dropdown-icon" data-catalog-id="${catalog.id}"></i>
                         </div>
                         <ul class="games-list" id="games-list-${catalog.id}">
-                            ${matches.map(game => `<li><i class="fas fa-gamepad"></i> ${escapeHtml(game)}</li>`).join('')}
+                            ${matches.map(game => `
+                                <li>
+                                    <div class="game-info">
+                                        <i class="fas fa-gamepad"></i>
+                                        <span class="game-name">${escapeHtml(game.name)}</span>
+                                    </div>
+                                    ${game.magnet ? `<a href="${escapeHtml(game.magnet)}" class="game-link-btn" target="_blank"><i class="fas fa-magnet"></i> ${currentTranslations?.link_btn || 'Link'}</a>` : `<span class="game-link-btn disabled" style="opacity:0.5; cursor:not-allowed;"><i class="fas fa-magnet"></i> ${currentTranslations?.no_link || 'Sem Link'}</span>`}
+                                </li>
+                            `).join('')}
                         </ul>
                     </div>
                 `).join('')}
