@@ -414,10 +414,7 @@ function setupMobileMenu() {
     
     function closeAllSidebars() {
         if (leftSidebar) leftSidebar.classList.remove('open');
-        if (filtersSidebar) {
-            filtersSidebar.classList.remove('open');
-            filtersSidebar.classList.add('hidden');
-        }
+        if (filtersSidebar) filtersSidebar.classList.remove('open');
     }
     
     if (menuToggle) {
@@ -425,7 +422,6 @@ function setupMobileMenu() {
             e.stopPropagation();
             if (filtersSidebar && filtersSidebar.classList.contains('open')) {
                 filtersSidebar.classList.remove('open');
-                filtersSidebar.classList.add('hidden');
             }
             leftSidebar.classList.toggle('open');
         });
@@ -437,8 +433,9 @@ function setupMobileMenu() {
             if (leftSidebar && leftSidebar.classList.contains('open')) {
                 leftSidebar.classList.remove('open');
             }
-            filtersSidebar.classList.toggle('open');
-            filtersSidebar.classList.remove('hidden');
+            if (state.currentSection === 'sources') {
+                filtersSidebar.classList.toggle('open');
+            }
         });
     }
     
@@ -451,11 +448,6 @@ function setupMobileMenu() {
     if (closeFilters) {
         closeFilters.addEventListener('click', () => {
             filtersSidebar.classList.remove('open');
-            setTimeout(() => {
-                if (!filtersSidebar.classList.contains('open')) {
-                    filtersSidebar.classList.add('hidden');
-                }
-            }, 300);
         });
     }
     
@@ -469,11 +461,6 @@ function setupMobileMenu() {
             if (filtersSidebar && filtersSidebar.classList.contains('open')) {
                 if (!filtersSidebar.contains(e.target) && !filtersToggle.contains(e.target)) {
                     filtersSidebar.classList.remove('open');
-                    setTimeout(() => {
-                        if (!filtersSidebar.classList.contains('open')) {
-                            filtersSidebar.classList.add('hidden');
-                        }
-                    }, 300);
                 }
             }
         }
@@ -506,22 +493,20 @@ function setupNavigation() {
             
             if (section === 'sources') {
                 filtersSidebar.classList.remove('hidden');
-                filtersSidebar.style.opacity = '1';
-                filtersSidebar.style.transform = 'translateX(0)';
+                if (window.innerWidth <= 768) {
+                    filtersSidebar.classList.remove('open');
+                }
                 
                 setTimeout(() => {
                     setupFilterListeners();
                     state.isChangingSection = false;
                 }, 100);
             } else {
-                if (window.innerWidth <= 768) {
+                filtersSidebar.classList.add('hidden');
+                if (window.innerWidth <= 768 && filtersSidebar) {
                     filtersSidebar.classList.remove('open');
                 }
-                filtersSidebar.style.opacity = '0';
-                filtersSidebar.style.transform = 'translateX(100%)';
-                
                 setTimeout(() => {
-                    filtersSidebar.classList.add('hidden');
                     state.isChangingSection = false;
                 }, 300);
             }

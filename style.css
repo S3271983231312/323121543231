@@ -844,15 +844,14 @@ body {
 }
 
 .filters-sidebar {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     opacity: 1;
-    transform: translateX(0);
+    visibility: visible;
 }
 
 .filters-sidebar.hidden {
     opacity: 0;
-    transform: translateX(100%);
-    pointer-events: none;
+    visibility: hidden;
 }
 
 .filters-title {
@@ -1686,16 +1685,19 @@ body {
         width: 280px;
         transform: translateX(100%);
         box-shadow: -2px 0 20px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
     }
     
     .filters-sidebar.open {
         transform: translateX(0);
         opacity: 1;
-        pointer-events: auto;
+        visibility: visible;
     }
     
     .filters-sidebar.hidden {
         transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden;
     }
     
     .mobile-close-sidebar {
