@@ -133,7 +133,7 @@ const CONFIG = {
     sourceUrls: {
         'byxatab': 'https://cc836c46.byxatab.pages.dev',
         'dodi': 'https://a345eceb.dodi.pages.dev',
-        'ecologica': 'https://01a6b9ef.ecologica2verde.pages.dev',
+        'ecologica': 'https://5e877e21.ecologica2verde.pages.dev',
         'fitgirl': 'https://a2cb5a95.ecofitgirl.pages.dev',
         'gog': 'https://3b60b3cf.freepcgoggames.pages.dev',
         'onlinefix': 'https://32e97753.onlinefixme.pages.dev',
