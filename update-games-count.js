@@ -85,8 +85,12 @@ async function getGameCount(catalogId, catalogName, baseUrl) {
         
         let csvText;
         if (fullUrl.endsWith('.gz')) {
-            const decompressed = pako.ungzip(new Uint8Array(data), { to: 'string' });
-            csvText = decompressed;
+            const decompressed = pako.ungzip(new Uint8Array(data));
+            if (typeof decompressed === 'string') {
+                csvText = decompressed;
+            } else {
+                csvText = new TextDecoder('utf-8').decode(decompressed);
+            }
         } else {
             csvText = data.toString('utf-8');
         }
