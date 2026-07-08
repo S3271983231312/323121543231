@@ -1259,8 +1259,8 @@ body {
     border: 1px solid #2a2a2a;
     border-radius: 16px;
     width: 90%;
-    max-width: 700px;
-    height: 80vh;
+    max-width: 900px;
+    height: 85vh;
     display: flex;
     flex-direction: column;
     animation: modalFadeIn 0.3s ease;
@@ -1587,7 +1587,8 @@ body {
     align-items: center;
     gap: 10px;
     flex: 1;
-    min-width: 150px;
+    min-width: 200px;
+    flex-wrap: wrap;
 }
 
 .game-info i {
@@ -1598,6 +1599,26 @@ body {
 
 .game-name {
     word-break: break-word;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.game-version {
+    font-size: 11px;
+    color: #888;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 10px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.game-version i {
+    font-size: 10px;
+    color: #4caf50;
+    width: auto;
 }
 
 .game-link-btn {
@@ -1776,6 +1797,7 @@ body {
     
     .modal-container {
         width: 95%;
+        max-width: 95%;
         height: 85vh;
     }
     
@@ -1805,6 +1827,12 @@ body {
     
     .game-info {
         width: 100%;
+        min-width: unset;
+    }
+    
+    .game-version {
+        white-space: normal;
+        font-size: 10px;
     }
     
     .game-link-btn {

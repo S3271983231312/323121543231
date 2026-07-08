@@ -1108,6 +1108,52 @@ function setupGameSearch() {
         });
     }
 
+    function parseCSVLine(line) {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+        
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            
+            if (char === '"') {
+                if (inQuotes && line[i + 1] === '"') {
+                    current += '"';
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (char === ',' && !inQuotes) {
+                result.push(current.trim());
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        result.push(current.trim());
+        return result;
+    }
+
+    function findColumnIndex(headers, possibleNames) {
+        for (const name of possibleNames) {
+            const cleanName = name.toLowerCase().replace(/^"|"$/g, '').trim();
+            const index = headers.findIndex(h => 
+                h.toLowerCase().replace(/^"|"$/g, '').trim() === cleanName
+            );
+            if (index !== -1) return index;
+        }
+        
+        for (const name of possibleNames) {
+            const cleanName = name.toLowerCase().replace(/^"|"$/g, '').trim();
+            const index = headers.findIndex(h => 
+                h.toLowerCase().replace(/^"|"$/g, '').trim().includes(cleanName)
+            );
+            if (index !== -1) return index;
+        }
+        
+        return -1;
+    }
+
     async function searchInCatalog(catalog, gameName) {
         try {
             const response = await fetch(catalog.csvUrl);
@@ -1128,19 +1174,12 @@ function setupGameSearch() {
             const lines = csvText.split('\n');
             if (lines.length === 0) return [];
             
-            const headers = lines[0].split(',');
+            const headers = parseCSVLine(lines[0]);
             
-            const nameColumnIndex = headers.findIndex(h => 
-                h.toLowerCase().includes('nome') || 
-                h.toLowerCase().includes('name') ||
-                h.toLowerCase().includes('game')
-            );
-            
-            const magnetColumnIndex = headers.findIndex(h => 
-                h.toLowerCase().includes('url') || 
-                h.toLowerCase().includes('magnet') ||
-                h.toLowerCase().includes('link')
-            );
+            const nameColumnIndex = findColumnIndex(headers, ['nome', 'name', 'game', 'jogo', 'title', 'título']);
+            const versionColumnIndex = findColumnIndex(headers, ['version', 'versão', 'versao', 'ver']);
+            const buildColumnIndex = findColumnIndex(headers, ['build', 'buildid', 'build id']);
+            const magnetColumnIndex = findColumnIndex(headers, ['url', 'link', 'magnet', 'download']);
             
             if (nameColumnIndex === -1) return [];
             
@@ -1151,32 +1190,46 @@ function setupGameSearch() {
                 const line = lines[i].trim();
                 if (!line) continue;
                 
-                let columns;
-                if (line.includes('"')) {
-                    const regex = /"([^"]*)"|([^,]+)/g;
-                    columns = [];
-                    let match;
-                    while ((match = regex.exec(line)) !== null) {
-                        columns.push(match[1] || match[2] || '');
-                    }
-                } else {
-                    columns = line.split(',');
-                }
+                const columns = parseCSVLine(line);
                 
                 const gameName_raw = columns[nameColumnIndex] || '';
                 const gameName_clean = gameName_raw.replace(/^"|"$/g, '').trim();
                 
-                let magnetLink = '';
-                if (magnetColumnIndex !== -1 && columns[magnetColumnIndex]) {
-                    magnetLink = columns[magnetColumnIndex].replace(/^"|"$/g, '').trim();
-                }
-                
                 if (gameName_clean.toLowerCase().includes(searchTerm)) {
-                    if (!matches.some(m => m.name === gameName_clean)) {
+                    let version = '';
+                    let build = '';
+                    let magnetLink = '';
+                    
+                    if (versionColumnIndex !== -1 && columns[versionColumnIndex]) {
+                        version = columns[versionColumnIndex].replace(/^"|"$/g, '').trim();
+                    }
+                    
+                    if (buildColumnIndex !== -1 && columns[buildColumnIndex]) {
+                        build = columns[buildColumnIndex].replace(/^"|"$/g, '').trim();
+                    }
+                    
+                    if (magnetColumnIndex !== -1 && columns[magnetColumnIndex]) {
+                        magnetLink = columns[magnetColumnIndex].replace(/^"|"$/g, '').trim();
+                    }
+                    
+                    const existingMatch = matches.find(m => m.name === gameName_clean);
+                    if (!existingMatch) {
                         matches.push({
                             name: gameName_clean,
+                            version: version || 'N/A',
+                            build: build || 'N/A',
                             magnet: magnetLink
                         });
+                    } else {
+                        if (version && version !== 'N/A' && existingMatch.version === 'N/A') {
+                            existingMatch.version = version;
+                        }
+                        if (build && build !== 'N/A' && existingMatch.build === 'N/A') {
+                            existingMatch.build = build;
+                        }
+                        if (magnetLink && !existingMatch.magnet) {
+                            existingMatch.magnet = magnetLink;
+                        }
                     }
                 }
             }
@@ -1241,27 +1294,59 @@ function setupGameSearch() {
                 <span>${currentTranslations?.found_in || 'Encontrado em'} ${catalogsWithMatches.length} ${currentTranslations?.catalog || 'catálogo(s)'}</span>
             </div>
             <div class="catalogs-list">
-                ${catalogsWithMatches.map(({ catalog, matches }) => `
+                ${catalogsWithMatches.map(({ catalog, matches }) => {
+                    const uniqueMatches = matches.reduce((acc, current) => {
+                        const exists = acc.find(item => item.name === current.name);
+                        if (!exists) {
+                            acc.push(current);
+                        } else {
+                            if (current.version && current.version !== 'N/A' && exists.version === 'N/A') {
+                                exists.version = current.version;
+                            }
+                            if (current.build && current.build !== 'N/A' && exists.build === 'N/A') {
+                                exists.build = current.build;
+                            }
+                            if (current.magnet && !exists.magnet) {
+                                exists.magnet = current.magnet;
+                            }
+                        }
+                        return acc;
+                    }, []);
+                    
+                    return `
                     <div class="catalog-result" data-catalog-id="${catalog.id}">
                         <div class="catalog-result-header" data-catalog-id="${catalog.id}">
                             <i class="fas ${catalog.icon}"></i>
                             <strong>${catalog.name}</strong>
-                            <span class="match-count">${matches.length} ${currentTranslations?.games_found || 'jogo(s)'}</span>
+                            <span class="match-count">${uniqueMatches.length} ${currentTranslations?.games_found || 'jogo(s)'}</span>
                             <i class="fas fa-chevron-down dropdown-icon" data-catalog-id="${catalog.id}"></i>
                         </div>
                         <ul class="games-list" id="games-list-${catalog.id}">
-                            ${matches.map(game => `
-                                <li>
-                                    <div class="game-info">
-                                        <i class="fas fa-gamepad"></i>
-                                        <span class="game-name">${escapeHtml(game.name)}</span>
-                                    </div>
-                                    ${game.magnet ? `<a href="${escapeHtml(game.magnet)}" class="game-link-btn" target="_blank"><i class="fas fa-magnet"></i> ${currentTranslations?.link_btn || 'Link'}</a>` : `<span class="game-link-btn disabled" style="opacity:0.5; cursor:not-allowed;"><i class="fas fa-magnet"></i> ${currentTranslations?.no_link || 'Sem Link'}</span>`}
-                                </li>
-                            `).join('')}
+                            ${uniqueMatches.map(game => {
+                                let versionInfo = '';
+                                const hasBuild = game.build && game.build !== 'N/A' && game.build !== '';
+                                const hasVersion = game.version && game.version !== 'N/A' && game.version !== '';
+                                
+                                if (hasBuild) {
+                                    versionInfo = `<span class="game-version"><i class="fas fa-code-branch"></i> Build: ${escapeHtml(game.build)}</span>`;
+                                } else if (hasVersion) {
+                                    versionInfo = `<span class="game-version"><i class="fas fa-tag"></i> Versão: ${escapeHtml(game.version)}</span>`;
+                                }
+                                
+                                return `
+                                    <li>
+                                        <div class="game-info">
+                                            <i class="fas fa-gamepad"></i>
+                                            <span class="game-name">${escapeHtml(game.name)}</span>
+                                            ${versionInfo}
+                                        </div>
+                                        ${game.magnet ? `<a href="${escapeHtml(game.magnet)}" class="game-link-btn" target="_blank"><i class="fas fa-magnet"></i> ${currentTranslations?.link_btn || 'Link'}</a>` : `<span class="game-link-btn disabled" style="opacity:0.5; cursor:not-allowed;"><i class="fas fa-magnet"></i> ${currentTranslations?.no_link || 'Sem Link'}</span>`}
+                                    </li>
+                                `;
+                            }).join('')}
                         </ul>
                     </div>
-                `).join('')}
+                `}).join('')}
             </div>
         `;
         
