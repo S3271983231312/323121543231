@@ -102,10 +102,6 @@ const LANGUAGE_RU = {
             title: "САЙТЫ: Внешние источники не рекомендуются",
             description: "Список проблемных сайтов (рекламное ПО, вирусы, трояны) и нерекомендуемых источников."
         },
-        "digimon-guide": {
-            title: "РУКОВОДСТВО: Digimon Story: Time Stranger",
-            description: "Полное руководство по установке и настройке Digimon Story: Time Stranger из Steam."
-        },
         "elden-guide": {
             title: "РУКОВОДСТВО: ELDEN RING NIGHTREIGN",
             description: "Полное руководство по установке и настройке мода Seamless Co-op для ELDEN RING NIGHTREIGN."

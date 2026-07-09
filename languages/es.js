@@ -102,10 +102,6 @@ const LANGUAGE_ES = {
             title: "SITIOS: Fuentes Externas No Recomendadas",
             description: "Lista de sitios problemáticos (adware, virus, troyanos) y fuentes no recomendadas."
         },
-        "digimon-guide": {
-            title: "GUÍA: Digimon Story: Time Stranger",
-            description: "Guía completa para instalar y configurar Digimon Story: Time Stranger de Steam."
-        },
         "elden-guide": {
             title: "GUÍA: ELDEN RING NIGHTREIGN",
             description: "Guía completa para instalar y configurar el mod (Seamless Co-op) de ELDEN RING NIGHTREIGN."

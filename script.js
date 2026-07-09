@@ -133,8 +133,8 @@ const CONFIG = {
     sourceUrls: {
         'byxatab': 'https://e405dd0a.byxatab.pages.dev',
         'dodi': 'https://0b83b191.dodi.pages.dev',
-        'ecologica': 'https://4d18be05.ecologica2verde.pages.dev',
-        'fitgirl': 'https://b2fe80b4.ecofitgirl.pages.dev',
+        'ecologica': 'https://db94e56d.ecologica2verde.pages.dev',
+        'fitgirl': 'https://6427d543.ecofitgirl.pages.dev',
         'gog': 'https://3b60b3cf.freepcgoggames.pages.dev',
         'onlinefix': 'https://7d0c9c13.onlinefixme.pages.dev',
         'insaneramzes': 'https://1beba2d6.insaneramzes.pages.dev'
@@ -184,12 +184,6 @@ const CONFIG = {
             emoji: '⛔',
             icon: 'fa-exclamation-triangle',
             url: 'https://rentry.co/sites-problematicos-ecologica-verde'
-        },
-        {
-            id: 'digimon-guide',
-            emoji: '🎮',
-            icon: 'fa-gamepad',
-            url: 'https://rentry.co/DIGIMON-STORY-TIME-STRANGER-ECOLOGICA-VERDE'
         },
         {
             id: 'elden-guide',
