@@ -1621,6 +1621,11 @@ body {
     width: auto;
 }
 
+.game-version strong {
+    color: #4caf50;
+    font-weight: 600;
+}
+
 .game-link-btn {
     background: rgba(76, 175, 80, 0.15);
     border: 1px solid rgba(76, 175, 80, 0.3);
