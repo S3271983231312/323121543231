@@ -85,6 +85,9 @@ const LANGUAGE_EN = {
     url_safely: "URL Safely",
     catalogs_indexed: "indexed catalogs",
     total_games: "Total Games",
+    password_label: "Password",
+    version_label: "Version",
+    build_label: "Build",
     guides_translations: {
         "all-guides": {
             title: "ALL GUIDES FROM ECOLOGICAL VERDE",

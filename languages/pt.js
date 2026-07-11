@@ -85,6 +85,9 @@ const LANGUAGE_PT = {
     url_safely: "Verificação da URL",
     catalogs_indexed: "catálogos indexados",
     total_games: "Total de Jogos",
+    password_label: "Senha",
+    version_label: "Versão",
+    build_label: "Build",
     guides_translations: {
         "all-guides": {
             title: "TODOS GUIAS DA ECOLÓGICA VERDE",

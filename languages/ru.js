@@ -85,6 +85,9 @@ const LANGUAGE_RU = {
     url_safely: "Проверка URL",
     catalogs_indexed: "индексированных каталогов",
     total_games: "Всего игр",
+    password_label: "Пароль",
+    version_label: "Версия",
+    build_label: "Сборка",
     guides_translations: {
         "all-guides": {
             title: "ВСЕ ГАЙДЫ ECOLÓGICA VERDE",
