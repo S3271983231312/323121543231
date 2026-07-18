@@ -137,7 +137,7 @@ const CONFIG = {
         'fitgirl': 'https://f672aca8.ecofitgirl.pages.dev',
         'gog': 'https://3b60b3cf.freepcgoggames.pages.dev',
         'onlinefix': 'https://eba2b8fe.onlinefixme.pages.dev',
-        'insaneramzes': 'https://603b90bf.insaneramzes.pages.dev'
+        'insaneramzes': 'https://b238f03d.insaneramzes.pages.dev'
     },
     
     sourceSafetyLinks: {
