@@ -134,7 +134,7 @@ const CONFIG = {
         'byxatab': 'https://4b8d9b17.byxatab.pages.dev',
         'dodi': 'https://39b7884d.dodi.pages.dev',
         'ecologica': 'https://5fbd8f0e.ecologica2verde.pages.dev',
-        'fitgirl': 'https://8b2d0868.ecofitgirl.pages.dev',
+        'fitgirl': 'https://2cbf6f0b.ecofitgirl.pages.dev',
         'gog': 'https://3b60b3cf.freepcgoggames.pages.dev',
         'onlinefix': 'https://7e146d2c.onlinefixme.pages.dev',
         'insaneramzes': 'https://de573162.insaneramzes.pages.dev'
