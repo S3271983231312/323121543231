@@ -136,7 +136,7 @@ const CONFIG = {
         'ecologica': 'https://e804f172.ecologica2verde.pages.dev',
         'fitgirl': 'https://04f2782b.ecofitgirl.pages.dev',
         'gog': 'https://3b60b3cf.freepcgoggames.pages.dev',
-        'onlinefix': 'https://a6bd1a78.onlinefixme.pages.dev',
+        'onlinefix': 'https://cfed3bd0.onlinefixme.pages.dev',
         'insaneramzes': 'https://60be05af.insaneramzes.pages.dev'
     },
     
