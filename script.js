@@ -131,13 +131,13 @@ const CONFIG = {
     },
     
     sourceUrls: {
-        'byxatab': 'https://8756aaa7.byxatab.pages.dev',
-        'dodi': 'https://1fa05238.dodi.pages.dev',
+        'byxatab': 'https://35841e3f.byxatab.pages.dev',
+        'dodi': 'https://7a071cf6.dodi.pages.dev',
         'ecologica': 'https://ad817911.ecologica2verde.pages.dev',
-        'fitgirl': 'https://1ca44762.ecofitgirl.pages.dev',
+        'fitgirl': 'https://e96fb3b4.ecofitgirl.pages.dev',
         'gog': 'https://3b60b3cf.freepcgoggames.pages.dev',
-        'onlinefix': 'https://f725c067.onlinefixme.pages.dev',
-        'insaneramzes': 'https://6edfd4e9.insaneramzes.pages.dev'
+        'onlinefix': 'https://1262007b.onlinefixme.pages.dev',
+        'insaneramzes': 'https://55473688.insaneramzes.pages.dev'
     },
     
     sourceSafetyLinks: {
