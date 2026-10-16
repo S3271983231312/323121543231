@@ -135,7 +135,7 @@ const CONFIG = {
         'dodi': 'https://da8cda4f.dodi.pages.dev',
         'ecologica': 'https://ce3acfea.ecologica2verde.pages.dev',
         'fitgirl': 'https://156457dd.ecofitgirl.pages.dev',
-        'gog': 'https://a31070a9.freepcgoggames.pages.dev',
+        'gog': 'https://e6ed2c37.freepcgoggames.pages.dev',
         'onlinefix': 'https://c7095c39.onlinefixme.pages.dev',
         'insaneramzes': 'https://80c9056a.insaneramzes.pages.dev'
     },
