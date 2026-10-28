@@ -195,10 +195,10 @@ const PROS_CONS_ES = {
     "Releaser conhecido do CS.RIN.RU e do RuTracker": "Releaser conocido de CS.RIN.RU y RuTracker",
     "Catálogo pequeno de jogos": "Catálogo pequeño de juegos",
     "Velocidade de download pode ser lenta": "La velocidad de descarga puede ser lenta",
-    "Repacks com velocidade de instalação rápida.": "Repacks con velocidad de instalación rápida.",
-    "Maior catálogo com variações de jogos.": "Mayor catálogo con variaciones de juegos.",
-    "Catálogo com atualizações constantes.": "Catálogo con actualizaciones constantes.",
-    "Utiliza alguns releases dos sites do IGGGames/Skidrow.": "Utiliza algunos lanzamientos de los sitios IGGGames/Skidrow.",
-    "Releases antigos pode não conter Seeders.": "Los lanzamientos antiguos pueden no tener seeders.",
-    "Maioria dos Releases em RU/EN.": "La mayoría de los lanzamientos están en RU/EN."
+    "Repacks com velocidade de instalação rápida": "Repacks con velocidad de instalación rápida",
+    "Maior catálogo com variações de jogos": "Mayor catálogo con variaciones de juegos",
+    "Catálogo com atualizações constantes": "Catálogo con actualizaciones constantes",
+    "Utiliza alguns releases dos sites do IGGGames/Skidrow": "Utiliza algunos lanzamientos de los sitios IGGGames/Skidrow",
+    "Releases antigos pode não conter Seeders": "Los lanzamientos antiguos pueden no tener seeders",
+    "Maioria dos Releases em RU/EN": "La mayoría de los lanzamientos están en RU/EN"
 };
