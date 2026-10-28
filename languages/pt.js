@@ -97,6 +97,10 @@ const LANGUAGE_PT = {
             title: "GUIA: Adobe Creative Cloud",
             description: "Guia completo para instalação e ativação dos aplicativos da Adobe Creative Cloud."
         },
+        "adobe-ptbr-guide": {
+            title: "GUIA: Adobe Creative Cloud (PT/BR)",
+            description: "Guia completo para instalação e ativação dos aplicativos da Adobe Creative Cloud totalmente em PT/BR."
+        },
         "microsoft-guide": {
             title: "GUIA: Pacote Microsoft Office e Ativador do Windows",
             description: "Guia completo para instalação e ativação do Pacote Microsoft Office e Windows."
@@ -108,14 +112,6 @@ const LANGUAGE_PT = {
         "elden-guide": {
             title: "GUIA: ELDEN RING NIGHTREIGN",
             description: "Guia completo para instalação e configuração do mod (Seamless Co-op) do ELDEN RING NIGHTREIGN."
-        },
-        "ffxv-guide": {
-            title: "GUIA: FINAL FANTASY XV: Windows Edition",
-            description: "Guia completo para instalação e configuração do FINAL FANTASY XV: Windows Edition."
-        },
-        "persona-guide": {
-            title: "GUIA: Persona 3 Reload",
-            description: "Guia completo para instalação e configuração do Persona 3 Reload da Steam."
         },
         "smt-guide": {
             title: "GUIA: Shin Megami Tensei V: Vengeance",

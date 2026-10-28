@@ -97,6 +97,10 @@ const LANGUAGE_RU = {
             title: "РУКОВОДСТВО: Adobe Creative Cloud",
             description: "Полное руководство по установке и активации приложений Adobe Creative Cloud."
         },
+        "adobe-ptbr-guide": {
+            title: "РУКОВОДСТВО: Adobe Creative Cloud (PT/BR)",
+            description: "Полное руководство по установке и активации приложений Adobe Creative Cloud полностью на PT/BR."
+        },
         "microsoft-guide": {
             title: "РУКОВОДСТВО: Пакет Microsoft Office и активатор Windows",
             description: "Полное руководство по установке и активации Microsoft Office и Windows."
@@ -108,14 +112,6 @@ const LANGUAGE_RU = {
         "elden-guide": {
             title: "РУКОВОДСТВО: ELDEN RING NIGHTREIGN",
             description: "Полное руководство по установке и настройке мода Seamless Co-op для ELDEN RING NIGHTREIGN."
-        },
-        "ffxv-guide": {
-            title: "РУКОВОДСТВО: FINAL FANTASY XV: Windows Edition",
-            description: "Полное руководство по установке и настройке FINAL FANTASY XV: Windows Edition."
-        },
-        "persona-guide": {
-            title: "РУКОВОДСТВО: Persona 3 Reload",
-            description: "Полное руководство по установке и настройке Persona 3 Reload из Steam."
         },
         "smt-guide": {
             title: "РУКОВОДСТВО: Shin Megami Tensei V: Vengeance",
@@ -198,5 +194,11 @@ const PROS_CONS_RU = {
     "Foco do idioma em Russo": "Фокус на русском языке",
     "Releaser conhecido do CS.RIN.RU e do RuTracker": "Известный релизер с CS.RIN.RU и RuTracker",
     "Catálogo pequeno de jogos": "Маленький каталог игр",
-    "Velocidade de download pode ser lenta": "Скорость загрузки может быть низкой"
+    "Velocidade de download pode ser lenta": "Скорость загрузки может быть низкой",
+    "Repacks com velocidade de instalação rápida.": "Repacks с быстрой скоростью установки.",
+    "Maior catálogo com variações de jogos.": "Больший каталог с вариациями игр.",
+    "Catálogo com atualizações constantes.": "Каталог с постоянными обновлениями.",
+    "Utiliza alguns releases dos sites do IGGGames/Skidrow.": "Использует некоторые релизы с сайтов IGGGames/Skidrow.",
+    "Releases antigos pode não conter Seeders.": "Старые релизы могут не иметь сидеров.",
+    "Maioria dos Releases em RU/EN.": "Большинство релизов на RU/EN."
 };

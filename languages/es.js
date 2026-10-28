@@ -97,6 +97,10 @@ const LANGUAGE_ES = {
             title: "GUÍA: Adobe Creative Cloud",
             description: "Guía completa para instalar y activar las aplicaciones de Adobe Creative Cloud."
         },
+        "adobe-ptbr-guide": {
+            title: "GUÍA: Adobe Creative Cloud (PT/BR)",
+            description: "Guía completa para instalar y activar las aplicaciones de Adobe Creative Cloud totalmente en PT/BR."
+        },
         "microsoft-guide": {
             title: "GUÍA: Paquete Microsoft Office y Activador de Windows",
             description: "Guía completa para instalar y activar Microsoft Office y Windows."
@@ -108,14 +112,6 @@ const LANGUAGE_ES = {
         "elden-guide": {
             title: "GUÍA: ELDEN RING NIGHTREIGN",
             description: "Guía completa para instalar y configurar el mod (Seamless Co-op) de ELDEN RING NIGHTREIGN."
-        },
-        "ffxv-guide": {
-            title: "GUÍA: FINAL FANTASY XV: Windows Edition",
-            description: "Guía completa para instalar y configurar FINAL FANTASY XV: Windows Edition."
-        },
-        "persona-guide": {
-            title: "GUÍA: Persona 3 Reload",
-            description: "Guía completa para instalar y configurar Persona 3 Reload de Steam."
         },
         "smt-guide": {
             title: "GUÍA: Shin Megami Tensei V: Vengeance",
@@ -198,5 +194,11 @@ const PROS_CONS_ES = {
     "Foco do idioma em Russo": "Enfoque en idioma ruso",
     "Releaser conhecido do CS.RIN.RU e do RuTracker": "Releaser conocido de CS.RIN.RU y RuTracker",
     "Catálogo pequeno de jogos": "Catálogo pequeño de juegos",
-    "Velocidade de download pode ser lenta": "La velocidad de descarga puede ser lenta"
+    "Velocidade de download pode ser lenta": "La velocidad de descarga puede ser lenta",
+    "Repacks com velocidade de instalação rápida.": "Repacks con velocidad de instalación rápida.",
+    "Maior catálogo com variações de jogos.": "Mayor catálogo con variaciones de juegos.",
+    "Catálogo com atualizações constantes.": "Catálogo con actualizaciones constantes.",
+    "Utiliza alguns releases dos sites do IGGGames/Skidrow.": "Utiliza algunos lanzamientos de los sitios IGGGames/Skidrow.",
+    "Releases antigos pode não conter Seeders.": "Los lanzamientos antiguos pueden no tener seeders.",
+    "Maioria dos Releases em RU/EN.": "La mayoría de los lanzamientos están en RU/EN."
 };

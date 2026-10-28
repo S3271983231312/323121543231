@@ -127,17 +127,19 @@ const CONFIG = {
         'fitgirl': { type: 'repacks', icon: 'fa-gamepad' },
         'gog': { type: 'gog', icon: 'fa-gamepad' },
         'onlinefix': { type: 'online', icon: 'fa-wifi' },
-        'insaneramzes': { type: 'folder', icon: 'fa-gamepad' }
+        'insaneramzes': { type: 'folder', icon: 'fa-gamepad' },
+        'igruha': { type: 'repacks', icon: 'fa-gamepad' }
     },
     
     sourceUrls: {
-        'byxatab': 'https://65ad5dd6.byxatab.pages.dev',
-        'dodi': 'https://e6b334e3.dodi.pages.dev',
-        'ecologica': 'https://de8da0a4.ecologica2verde.pages.dev',
-        'fitgirl': 'https://9264fce5.ecofitgirl.pages.dev',
-        'gog': 'https://80ab4242.freepcgoggames.pages.dev',
-        'onlinefix': 'https://2cefd822.onlinefixme.pages.dev',
-        'insaneramzes': 'https://d31b4ad3.insaneramzes.pages.dev'
+        'byxatab': 'https://fc4b07d6.byxatab.pages.dev',
+        'dodi': 'https://c7b281ec.dodi.pages.dev',
+        'ecologica': 'https://6d06f571.ecologica2verde.pages.dev',
+        'fitgirl': 'https://f672aca8.ecofitgirl.pages.dev',
+        'gog': 'https://3b60b3cf.freepcgoggames.pages.dev',
+        'onlinefix': 'https://eba2b8fe.onlinefixme.pages.dev',
+        'insaneramzes': 'https://603b90bf.insaneramzes.pages.dev',
+        'igruha': 'https://b40b3064.igruha.pages.dev'
     },
     
     sourceSafetyLinks: {
@@ -147,7 +149,8 @@ const CONFIG = {
         'fitgirl': 'https://www.urlvoid.com/scan/fitgirl-repacks.site/',
         'gog': 'https://www.urlvoid.com/scan/freegogpcgames.com/',
         'onlinefix': 'https://www.urlvoid.com/scan/online-fix.me/',
-        'insaneramzes': 'https://www.urlvoid.com/scan/rutracker.me/'
+        'insaneramzes': 'https://www.urlvoid.com/scan/rutracker.me/',
+        'igruha': 'https://www.urlvoid.com/scan/itorrents-igruha.org/'
     },
     
     recommendations: {
@@ -157,7 +160,8 @@ const CONFIG = {
         'fitgirl': 5,
         'gog': 4,
         'onlinefix': 5,
-        'insaneramzes': 4
+        'insaneramzes': 4,
+        'igruha': 4
     },
     
     guides: [
@@ -172,6 +176,12 @@ const CONFIG = {
             emoji: '📙',
             icon: 'fa-paint-brush',
             url: 'https://rentry.co/adobe-creative-cloud-ecologica-verde'
+        },
+        {
+            id: 'adobe-ptbr-guide',
+            emoji: '📙',
+            icon: 'fa-paint-brush',
+            url: 'https://rentry.co/ADOBE-ECOLOGICA-VERDE'
         },
         {
             id: 'microsoft-guide',
@@ -190,18 +200,6 @@ const CONFIG = {
             emoji: '🎮',
             icon: 'fa-gamepad',
             url: 'https://rentry.co/elden-ring-nightreign-ecologica-verde'
-        },
-        {
-            id: 'ffxv-guide',
-            emoji: '🎮',
-            icon: 'fa-gamepad',
-            url: 'https://rentry.co/FINAL-FANTASY-XV-ECOLOGICA-VERDE'
-        },
-        {
-            id: 'persona-guide',
-            emoji: '🎮',
-            icon: 'fa-gamepad',
-            url: 'https://rentry.co/PERSONA-3-RELOAD-ECOLOGICA-VERDE'
         },
         {
             id: 'smt-guide',
@@ -623,7 +621,8 @@ function applyFilters() {
                 source.id === 'fitgirl' || 
                 source.id === 'dodi' || 
                 source.id === 'byxatab' || 
-                source.id === 'ecologica'
+                source.id === 'ecologica' ||
+                source.id === 'igruha'
             );
         } else {
             filtered = filtered.filter(source => source.type === state.filters.type);
@@ -1021,7 +1020,8 @@ function setupGameSearch() {
             'fitgirl': 'FitGirl%20Repack.csv.gz',
             'gog': 'Free%20PC%20GOG%20Games.csv.gz',
             'onlinefix': 'OnlineFixMe.csv.gz',
-            'insaneramzes': 'InsaneRamzes.csv.gz'
+            'insaneramzes': 'InsaneRamzes.csv.gz',
+            'igruha': 'Igruha.csv.gz'
         };
         
         const icons = {
@@ -1031,7 +1031,8 @@ function setupGameSearch() {
             'fitgirl': 'fa-gamepad',
             'gog': 'fa-gamepad',
             'onlinefix': 'fa-wifi',
-            'insaneramzes': 'fa-gamepad'
+            'insaneramzes': 'fa-gamepad',
+            'igruha': 'fa-gamepad'
         };
         
         const names = {
@@ -1041,24 +1042,24 @@ function setupGameSearch() {
             'fitgirl': 'FitGirl Repacks',
             'gog': 'Free PC GOG Games',
             'onlinefix': 'OnlineFixMe',
-            'insaneramzes': 'InsaneRamZes'
+            'insaneramzes': 'InsaneRamZes',
+            'igruha': 'Igruha Torrents'
         };
         
         for (const [id, baseUrl] of Object.entries(CONFIG.sourceUrls)) {
             const csvFile = csvFiles[id];
             if (csvFile) {
-                let url = baseUrl;
-                if (!url.endsWith('/')) {
-                    url = url + '/';
-                }
+                let url = baseUrl.replace(/\/+$/, '');
                 catalogs.push({
                     id: id,
                     name: names[id],
-                    csvUrl: url + csvFile,
+                    csvUrl: url + '/' + csvFile,
                     icon: icons[id]
                 });
             }
         }
+        
+        catalogs.sort((a, b) => a.name.localeCompare(b.name));
         
         return catalogs;
     }

@@ -33,7 +33,8 @@ const CSV_FILES = {
     'fitgirl': 'FitGirl%20Repack.csv.gz',
     'gog': 'Free%20PC%20GOG%20Games.csv.gz',
     'onlinefix': 'OnlineFixMe.csv.gz',
-    'insaneramzes': 'InsaneRamzes.csv.gz'
+    'insaneramzes': 'InsaneRamzes.csv.gz',
+    'igruha': 'Igruha.csv.gz'
 };
 
 const CATALOG_NAMES = {
@@ -43,7 +44,8 @@ const CATALOG_NAMES = {
     'fitgirl': 'FitGirl Repacks',
     'gog': 'Free PC GOG Games',
     'onlinefix': 'OnlineFixMe',
-    'insaneramzes': 'InsaneRamZes'
+    'insaneramzes': 'InsaneRamZes',
+    'igruha': 'Igruha Torrents'
 };
 
 function fetchUrl(url) {
