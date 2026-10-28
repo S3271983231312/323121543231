@@ -158,14 +158,14 @@
       "url": "https://igruha.pages.dev/",
       "csvColumns": ["Nome", "Version", "Build", "Tamanho do Arquivo", "URL", "Data da Postagem"],
       "pros": [
-        "Repacks com velocidade de instalação rápida.",
-        "Maior catálogo com variações de jogos.",
-        "Catálogo com atualizações constantes."
+        "Repacks com velocidade de instalação rápida",
+        "Maior catálogo com variações de jogos",
+        "Catálogo com atualizações constantes"
       ],
       "cons": [
-        "Utiliza alguns releases dos sites do IGGGames/Skidrow.",
-        "Releases antigos pode não conter Seeders.",
-        "Maioria dos Releases em RU/EN."
+        "Utiliza alguns releases dos sites do IGGGames/Skidrow",
+        "Releases antigos pode não conter Seeders",
+        "Maioria dos Releases em RU/EN"
       ]
     }
   ],
