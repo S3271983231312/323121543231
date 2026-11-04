@@ -1196,7 +1196,7 @@ function setupGameSearch() {
                     let magnetLink = '';
                     
                     if (versionColumnIndex !== -1 && columns[versionColumnIndex]) {
-                        version = columns[versionColumnIndex].replace(/^"|"$/g, '').trim();
+                        version = columns[versionColumnIndex].replace(/^"|"$/g, '').trim().replace(/^v/i, '');
                     }
                     
                     if (buildColumnIndex !== -1 && columns[buildColumnIndex]) {
