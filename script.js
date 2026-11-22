@@ -132,14 +132,14 @@ const CONFIG = {
     },
     
     sourceUrls: {
-        'byxatab': 'https://0c83de0c.byxatab.pages.dev',
-        'dodi': 'https://615e45cf.dodi.pages.dev',
-        'ecologica': 'https://3d08ff3d.ecologica2verde.pages.dev',
-        'fitgirl': 'https://f8847a26.ecofitgirl.pages.dev',
-        'gog': 'https://f14450a7.freepcgoggames.pages.dev',
+        'byxatab': 'https://c76d26b5.byxatab.pages.dev',
+        'dodi': 'https://69c7dd4a.dodi.pages.dev',
+        'ecologica': 'https://b9d0d111.ecologica2verde.pages.dev',
+        'fitgirl': 'https://52a9e71d.ecofitgirl.pages.dev',
+        'gog': 'https://07edcf5c.freepcgoggames.pages.dev',
         'onlinefix': 'https://0116b4b7.onlinefixme.pages.dev',
-        'insaneramzes': 'https://1af19d1b.insaneramzes.pages.dev',
-        'igruha': 'https://001713e6.igruha.pages.dev'
+        'insaneramzes': 'https://2ce8c451.insaneramzes.pages.dev',
+        'igruha': 'https://5b5a7a1d.igruha.pages.dev'
     },
     
     sourceSafetyLinks: {
